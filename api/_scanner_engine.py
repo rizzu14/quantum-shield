@@ -65,15 +65,14 @@ class CryptoScanner:
         raise ValueError(f"Invalid port: {port}. Must be 1-65535.")
 
     def _prevent_ssrf(self, target):
-        """Prevent scanning of local/private infrastructure."""
+        """Prevent scanning of local/private infrastructure. Also validates DNS resolution."""
         try:
             ip = socket.gethostbyname(target)
             addr = ipaddress.ip_address(ip)
             if addr.is_private or addr.is_loopback or addr.is_link_local:
                 raise PermissionError(f"Scanning of private IPs ({ip}) is prohibited.")
         except socket.gaierror:
-            # If we can't resolve it, we can't check IP, but the scan will fail anyway
-            pass
+            raise ValueError(f"Invalid or unreachable endpoint: '{target}' could not be resolved. Please enter a valid, publicly accessible domain or IP address.")
 
     def scan_tls(self):
         """Analyze TLS handshake and perform service discovery."""
