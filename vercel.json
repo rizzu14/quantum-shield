@@ -3,10 +3,13 @@
   "name": "quantum-shield",
   "builds": [
     { "src": "api/index.py", "use": "@vercel/python" },
+    { "src": "*.png", "use": "@vercel/static" },
     { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.py" },
+    { "src": "/(.+\\.png)", "dest": "/$1" },
+    { "src": "/(.+\\.jpg)", "dest": "/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
