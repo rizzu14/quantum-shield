@@ -2778,6 +2778,11 @@
         }
 
         function showError(msg) {
+            // Hide any previous results and stay on home
+            const resultsDiv = document.getElementById('results');
+            if (resultsDiv) { resultsDiv.style.display = 'none'; resultsDiv.innerHTML = ''; }
+            showHome();
+
             // Show error inline inside the scanner card, below the search bar
             const errorEl = document.getElementById('inline-scan-error');
             if (errorEl) {
@@ -2798,6 +2803,15 @@
             if (errorEl) { errorEl.innerHTML = ''; errorEl.style.display = 'none'; }
         }
         function simulateScan(target) {
+            // Re-validate before simulating — never show Q-Score for invalid input
+            if (!target || !isValidEndpoint(target)) {
+                const tld = target && target.includes('.') ? target.split('.').pop().toLowerCase() : null;
+                const tldMsg = (tld && validTLDs && !validTLDs.has(tld))
+                    ? `".${tld}" is not a recognized IANA top-level domain.`
+                    : 'Target must be a valid domain (e.g., bank.com) or IP address.';
+                showError(`INVALID ENDPOINT: ${tldMsg}`);
+                return;
+            }
             // Helper to generate a deterministic pseudo-random seed from string
             const getSeed = (s) => s.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0);
             const seed = Math.abs(getSeed(target));
