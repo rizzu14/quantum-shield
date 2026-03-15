@@ -144,11 +144,6 @@
         }
 
         .threat-ticker {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 5001;
             background: rgba(239, 68, 68, 0.1);
             color: #ffff00;
             padding: 0.5rem 1rem;
@@ -159,6 +154,7 @@
             white-space: nowrap;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
         .ticker-scroll {
@@ -2096,8 +2092,14 @@
     <div id="particles-js"></div>
     <div class="ambient-light"></div>
 
-    <div id="main-navbar" style="position:fixed;top:34px;left:0;width:100%;z-index:5000;">
-        <nav class="top-nav" style="width:100%;border-radius:0;border:none;border-bottom:1px solid rgba(0,242,255,0.2);padding:0.55rem 2rem;overflow:hidden;">
+    <div id="main-navbar" style="position:fixed;top:0;left:0;width:100%;z-index:9998;pointer-events:none;">
+        <div class="threat-ticker" style="position:relative;top:auto;left:auto;width:100%;pointer-events:auto;">
+            <div style="background: var(--danger); color: white; padding: 2px 8px; margin-right: 15px; font-weight: bold; flex-shrink:0;" data-i18n="threat_feed_live">LIVE THREAT FEED</div>
+            <div class="ticker-scroll" id="threat-ticker-text">
+                [03:14:22] HNDL NODE DETECTED IN B-REGION... [03:15:01] BRUTE-FORCE ATTEMPT ON NIST-P256 REPOSITORY BLOCKED... [03:15:45] CRITICAL VULNERABILITY: ML-KEM PRE-STANDARD DEPLOYMENT DETECTED...
+            </div>
+        </div>
+        <nav class="top-nav" style="width:100%;border-radius:0;border:none;border-bottom:1px solid rgba(0,242,255,0.2);padding:0.55rem 2rem;overflow:hidden;pointer-events:auto;">
             <div class="top-nav-brand" style="display:flex !important;align-items:center;gap:0.5rem;color:#10b981;font-weight:800;font-size:0.9rem;letter-spacing:2px;margin-right:1rem;flex-shrink:0;">⚛ QUANTUMSHIELD</div>
             <div class="nav-link" onclick="showHome()">
                 <i data-lucide="home" style="width: 14px; height: 14px;"></i>
@@ -2254,13 +2256,6 @@
             </div>
         </div>
         <button onclick="toggleProfile()" style="width: 100%;" data-i18n="close_portal">CLOSE PORTAL</button>
-    </div>
-
-    <div class="threat-ticker">
-        <div style="background: var(--danger); color: white; padding: 2px 8px; margin-right: 15px; font-weight: bold;" data-i18n="threat_feed_live">LIVE THREAT FEED</div>
-        <div class="ticker-scroll" id="threat-ticker-text">
-            [03:14:22] HNDL NODE DETECTED IN B-REGION... [03:15:01] BRUTE-FORCE ATTEMPT ON NIST-P256 REPOSITORY BLOCKED... [03:15:45] CRITICAL VULNERABILITY: ML-KEM PRE-STANDARD DEPLOYMENT DETECTED...
-        </div>
     </div>
 
         <div id="home-content">
